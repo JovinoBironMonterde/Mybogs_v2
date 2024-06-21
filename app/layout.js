@@ -15,9 +15,16 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={inter.className}>
-        <Box sx={{maxWidth: '80%', mx: 'auto'}}>
-        <Appbar/>
-        {children}
+      <Box sx={{
+          maxWidth: '80%',
+          mx: 'auto',
+          '@media (max-width: 600px)': {
+            maxWidth: '100%',
+          },
+          p:0
+        }}>
+          <Appbar />
+          {children}
         </Box>
         </body>
     </html>
