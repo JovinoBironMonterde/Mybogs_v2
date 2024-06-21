@@ -91,9 +91,9 @@ function PostCard() {
       </CardContent>
       <Box sx={{ px: 4, mb: 4 }}>
         {comments.map((comment, index) => (
-          <Box sx={{mb: 2, display: 'flex'}}>
-          <AccountCircleIcon sx={{mr: 1}}/>
-          <Typography key={index}>{comment.comment}</Typography>
+          <Box key={index} sx={{ mb: 2, display: 'flex' }}>
+            <AccountCircleIcon sx={{ mr: 1 }} />
+            <Typography>{comment.comment}</Typography>
           </Box>
         ))}
       </Box>
