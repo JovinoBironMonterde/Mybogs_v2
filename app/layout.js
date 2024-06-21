@@ -2,6 +2,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Appbar from "./component/Appbar";
 import SignIn from "./component/SignIn";
+import Profile from "./component/Profile";
 import Box from '@mui/material/Box';
 
 const inter = Inter({ subsets: ["latin"] });
@@ -24,6 +25,7 @@ export default function RootLayout({ children }) {
           p:0
         }}>
           <Appbar />
+<Profile/>
           {children}
         </Box>
         </body>

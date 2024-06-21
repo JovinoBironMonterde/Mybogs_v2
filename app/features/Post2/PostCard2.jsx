@@ -15,7 +15,7 @@ import { Timestamp } from "firebase/firestore";
 // Ensure the image path is correct
 import image1 from '../../asset/img/img1.jpeg';
 
-function PostCard() {
+function PostCard2() {
   const [liked, setLiked] = useState(false);
   const [likesCount, setLikesCount] = useState(0);
   const [comment, setComment] = useState("");
@@ -26,13 +26,13 @@ function PostCard() {
 
   useEffect(() => {
     const fetchLikesCount = async () => {
-      const q = query(collection(db, "Post1"));
+      const q = query(collection(db, "Post2"));
       const querySnapshot = await getDocs(q);
       setLikesCount(querySnapshot.size);
     };
 
     const fetchComments = async () => {
-      const q = query(collection(db, "Post1Comments"));
+      const q = query(collection(db, "Post2Comments"));
       const querySnapshot = await getDocs(q);
       const fetchedComments = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
       setComments(fetchedComments);
@@ -45,7 +45,7 @@ function PostCard() {
   const handleLike = async () => {
     try {
       setLiked(!liked);
-      const docRef = await addDoc(collection(db, "Post1"), {
+      const docRef = await addDoc(collection(db, "Post2"), {
         liked: !liked,
         timestamp: Timestamp.now(),
       });
@@ -58,7 +58,7 @@ function PostCard() {
 
   const handleCommentSubmit = async () => {
     try {
-      const docRef = await addDoc(collection(db, "Post1Comments"), {
+      const docRef = await addDoc(collection(db, "Post2Comments"), {
         comment: comment,
         name: name,
         timestamp: Timestamp.now(),
@@ -179,4 +179,4 @@ function PostCard() {
   );
 }
 
-export default PostCard;
+export default PostCard2;
