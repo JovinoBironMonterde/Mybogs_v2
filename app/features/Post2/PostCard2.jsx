@@ -14,6 +14,33 @@ import { Timestamp } from "firebase/firestore";
 
 // Ensure the image path is correct
 import image1 from '../../asset/img/img1.jpeg';
+import Profile from '../../asset/img/profile.jpg';
+
+function timeAgo(timestamp) {
+  const now = new Date(); // Get current date dynamically
+  const secondsAgo = Math.floor((now - timestamp.toDate()) / 1000);
+
+  const minutesAgo = Math.floor(secondsAgo / 60);
+  if (minutesAgo < 1) return `${secondsAgo} seconds ago`;
+
+  const hoursAgo = Math.floor(minutesAgo / 60);
+  if (hoursAgo < 1) return `${minutesAgo} minutes ago`;
+
+  const daysAgo = Math.floor(hoursAgo / 24);
+  if (daysAgo < 1) return `${hoursAgo} hours ago`;
+
+  const weeksAgo = Math.floor(daysAgo / 7);
+  if (weeksAgo < 1) return `${daysAgo} days ago`;
+
+  const monthsAgo = Math.floor(daysAgo / 30);
+  if (monthsAgo < 1) return `${weeksAgo} weeks ago`;
+
+  const yearsAgo = Math.floor(daysAgo / 365);
+  if (yearsAgo < 1) return `${monthsAgo} months ago`;
+
+  return `${yearsAgo} years ago`;
+}
+
 
 function PostCard2() {
   const [liked, setLiked] = useState(false);
@@ -23,6 +50,7 @@ function PostCard2() {
   const [name, setName] = useState("");
   const [open, setOpen] = useState(false);
   const [showAllComments, setShowAllComments] = useState(false);
+  const [postTime, setPostTime] = useState(Timestamp.now()); // Initialize postTime with current timestamp
 
   useEffect(() => {
     const fetchLikesCount = async () => {
@@ -87,6 +115,15 @@ function PostCard2() {
 
   return (
     <Box>
+      <Box sx={{ p: 1, mb: 1, display: 'flex', alignItems: 'center' }}>
+        <Box sx={{ width: '45px', height: '45px', overflow: 'hidden', borderRadius: '50%' }}>
+          <Image src={Profile} alt="Profile Image" width={45} height={45} />
+        </Box>
+        <Box sx={{ ml: 1, display: 'flex', alignItems: 'center' }}>
+          <Typography sx={{ fontSize: 18 }}>Jovino Monterde</Typography>
+          <Typography sx={{ fontSize: 12, ml:1, color: 'green' }}>{timeAgo(postTime)}</Typography>
+        </Box>
+      </Box>
       <CardMedia>
         <Image
           src={image1}
@@ -133,7 +170,6 @@ function PostCard2() {
           label="Comment"
           multiline
           maxRows={4}
-          variant="filled"
           sx={{ backgroundColor: 'transparent' }}
           onClick={handleOpen}
         />

@@ -7,6 +7,7 @@ import Grid from '@mui/material/Grid';
 import PostCard from './features/post1/PostCard';
 import PostCard2 from './features/Post2/PostCard2';
 import PostCard3 from './features/post3/PostCard3';
+import About from './component/About';
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -33,9 +34,6 @@ export default function MainPost() {
                 <Grid item xs={12}>
                   <Item><PostCard3/></Item>
                 </Grid>
-                <Grid item xs={12}>
-                  <Item>xs=8</Item>
-                </Grid>
               </Grid>
             </Box>
           </Grid>
@@ -43,7 +41,7 @@ export default function MainPost() {
             <Box sx={{ flexGrow: 1, p:3 }}>
               <Grid container spacing={2}>
                 <Grid item xs={12}>
-                  <Item>xs=4</Item>
+                  <Item><About/></Item>
                 </Grid>
                 <Grid item xs={12}>
                   <Item>xs=4</Item>

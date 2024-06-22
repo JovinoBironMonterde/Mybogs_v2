@@ -5,6 +5,9 @@ import { collection, query, where, getDocs, addDoc } from 'firebase/firestore';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
+import FollowDialog from './FollowDialog';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { useTheme } from '@mui/material/styles';
 
 async function addDataToFirestore(email) {
   try {
@@ -29,6 +32,9 @@ async function checkIfEmailExists(email) {
 export default function FollowButton() {
   const [email, setEmail] = useState('');
   const [isFollowing, setIsFollowing] = useState(false);
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   useEffect(() => {
     const checkEmail = async () => {
@@ -39,6 +45,14 @@ export default function FollowButton() {
     };
     checkEmail();
   }, [email]);
+
+  const handleDialogOpen = () => {
+    setDialogOpen(true);
+  };
+
+  const handleDialogClose = () => {
+    setDialogOpen(false);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -54,28 +68,42 @@ export default function FollowButton() {
   };
 
   return (
-    <Box
-      component="form"
-      sx={{
-        '& > :not(style)': { m: 1, width: '400px' },
-        borderRadius: '10px', overflow: 'hidden',
-      }}
-      noValidate
-      autoComplete="off"
-      onSubmit={handleSubmit}
-    >
-      <Box sx={{ m: 1, width: '200px', display: 'flex', backgroundColor: 'gray', p: 0.3, borderRadius: '4px' }} variant="filled">
-        <TextField
-          size="small"
-          id="email"
-          sx={{ backgroundColor: '#d6dbdc', width: '100%', borderRadius: '0' }}
-          value={email}
-          onChange={(event) => setEmail(event.target.value)}
-        />
-        <Button type="submit" variant="contained" color="primary" sx={{ px: 4, ml: 0.3 }}>
-          {isFollowing ? 'Followed' : 'Follow'}
-        </Button>
-      </Box>
+    <Box>
+      {!isMobile && (
+        <Box
+          component="form"
+          sx={{
+            '& > :not(style)': { m: 1, maxWidth: '400px' },
+            borderRadius: '10px', overflow: 'hidden',
+          }}
+          noValidate
+          autoComplete="off"
+          onSubmit={handleSubmit}
+        >
+          <Box sx={{ m: 1,width: '100%', maxWidth: '300px', display: 'flex', backgroundColor: '#fff', p: 0.3, borderRadius: '4px' }} variant="filled">
+            <TextField
+            fullWidth
+              size="small"
+              id="email"
+                label="Email Address"
+              sx={{ backgroundColor: '#f8f8f8', borderRadius: '0' }}
+              value={email}
+              onChange={(event) => setEmail(event.target.value)}
+            />
+            <Button type="submit" variant="contained" color="primary" sx={{ px: 4, ml: 0.3 }}>
+              {isFollowing ? 'Followed' : 'Follow'}
+            </Button>
+          </Box>
+        </Box>
+      )}
+      {isMobile && (
+        <Box sx={{ m: 1, display: 'flex', p: 0.3, borderRadius: '4px' }} variant="filled">
+          <Button type="button" variant="contained" onClick={handleDialogOpen} color="primary" sx={{ px: 4, ml: 0.3 }}>
+            {isFollowing ? 'Followed' : 'Follow'}
+          </Button>
+        </Box>
+      )}
+      <FollowDialog open={dialogOpen} onClose={handleDialogClose} />
     </Box>
   );
 }

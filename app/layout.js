@@ -22,10 +22,11 @@ export default function RootLayout({ children }) {
           '@media (max-width: 600px)': {
             maxWidth: '100%',
           },
+          backgroundColor: '#f8f8f8',
           p:0
         }}>
           <Appbar />
-<Profile/>
+          <Profile/>
           {children}
         </Box>
         </body>

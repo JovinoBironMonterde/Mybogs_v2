@@ -8,12 +8,36 @@ import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
 import MessageIcon from '@mui/icons-material/Message';
 import { Typography, TextField, Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
 import { db } from '@/app/connection/firebaseConfig';
-import { collection, addDoc, query, getDocs } from "firebase/firestore";
+import { collection, addDoc, query, getDocs, Timestamp } from "firebase/firestore";
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import { Timestamp } from "firebase/firestore";
 
-// Ensure the image path is correct
 import image1 from '../../asset/img/img1.jpeg';
+import Profile from '../../asset/img/profile.jpg';
+
+function timeAgo(timestamp) {
+  const now = new Date();
+  const secondsAgo = Math.floor((now - timestamp.toDate()) / 1000);
+
+  const minutesAgo = Math.floor(secondsAgo / 60);
+  if (minutesAgo < 1) return `${secondsAgo} seconds ago`;
+
+  const hoursAgo = Math.floor(minutesAgo / 60);
+  if (hoursAgo < 1) return `${minutesAgo} minutes ago`;
+
+  const daysAgo = Math.floor(hoursAgo / 24);
+  if (daysAgo < 1) return `${hoursAgo} hours ago`;
+
+  const weeksAgo = Math.floor(daysAgo / 7);
+  if (weeksAgo < 1) return `${daysAgo} days ago`;
+
+  const monthsAgo = Math.floor(daysAgo / 30);
+  if (monthsAgo < 1) return `${weeksAgo} weeks ago`;
+
+  const yearsAgo = Math.floor(daysAgo / 365);
+  if (yearsAgo < 1) return `${monthsAgo} months ago`;
+
+  return `${yearsAgo} years ago`;
+}
 
 function PostCard() {
   const [liked, setLiked] = useState(false);
@@ -23,6 +47,7 @@ function PostCard() {
   const [name, setName] = useState("");
   const [open, setOpen] = useState(false);
   const [showAllComments, setShowAllComments] = useState(false);
+  const [postTime, setPostTime] = useState(Timestamp.now());
 
   useEffect(() => {
     const fetchLikesCount = async () => {
@@ -87,25 +112,34 @@ function PostCard() {
 
   return (
     <Box>
+      <Box sx={{ p: 1, mb: 1, display: 'flex', alignItems: 'center' }}>
+        <Box sx={{ width: '45px', height: '45px', overflow: 'hidden', borderRadius: '50%' }}>
+          <Image src={Profile} alt="Profile Image" width={45} height={45} />
+        </Box>
+        <Box sx={{ ml: 1, display: 'flex', alignItems: 'center' }}>
+          <Typography sx={{ fontSize: 18 }}>Jovino Monterde</Typography>
+          <Typography sx={{ fontSize: 12, ml: 1, color: 'green' }}>{timeAgo(postTime)}</Typography>
+        </Box>
+      </Box>
       <CardMedia>
         <Image
           src={image1}
           alt="green iguana"
           layout="responsive"
-          width={100} 
-          height={75} 
+          width={100}
+          height={75}
         />
       </CardMedia>
       <CardContent sx={{ pb: 4 }}>
         <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
           <Box display="flex" alignItems="center" onClick={handleLike} sx={{ cursor: 'pointer' }}>
-            <Typography sx={{mr:1}}>{likesCount}</Typography>
+            <Typography sx={{ mr: 1 }}>{likesCount}</Typography>
             {liked ? <ThumbUpAltIcon /> : <ThumbUpOffAltIcon />}
             <Typography>{liked ? "Liked" : "Like"}</Typography>
           </Box>
           <Box display="flex" alignItems="center">
             <MessageIcon />
-            <Typography  sx={{ml:1}}>{comments.length}</Typography>
+            <Typography sx={{ ml: 1 }}>{comments.length}</Typography>
           </Box>
         </Box>
       </CardContent>
@@ -113,7 +147,7 @@ function PostCard() {
         {comments.slice(0, showAllComments ? comments.length : 1).map((comment) => (
           <Box key={comment.id} sx={{ mb: 2 }}>
             <Box sx={{ display: 'flex', alignItems: 'center' }}>
-              <AccountCircleIcon sx={{fontSize: 38}} />
+              <AccountCircleIcon sx={{ fontSize: 38 }} />
               <Typography sx={{ textAlign: 'left', ml: 1, fontWeight: 'bold' }}>{comment.name}</Typography>
               <Typography sx={{ textAlign: 'left', fontSize: 12, color: '#888', ml: 1 }}>
                 {comment.timestamp && new Date(comment.timestamp.seconds * 1000).toLocaleString()}
@@ -133,7 +167,6 @@ function PostCard() {
           label="Comment"
           multiline
           maxRows={4}
-          variant="filled"
           sx={{ backgroundColor: 'transparent' }}
           onClick={handleOpen}
         />
