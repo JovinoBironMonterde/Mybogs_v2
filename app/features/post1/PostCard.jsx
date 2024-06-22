@@ -14,28 +14,29 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import image1 from '../../asset/img/img1.jpeg';
 import Profile from '../../asset/img/profile.jpg';
 
-function timeAgo(timestamp) {
-  const now = new Date();
-  const secondsAgo = Math.floor((now - timestamp.toDate()) / 1000);
+function timeAgo(postTime, nowDate) {
+  const now = new Date(nowDate); // Specific date passed as argument
+  const postDate = postTime.toDate(); // Convert Firebase Timestamp to JavaScript Date object
+  const secondsAgo = Math.floor((now - postDate) / 1000);
+
+  if (secondsAgo < 60) return `${secondsAgo} seconds ago`;
 
   const minutesAgo = Math.floor(secondsAgo / 60);
-  if (minutesAgo < 1) return `${secondsAgo} seconds ago`;
+  if (minutesAgo < 60) return `${minutesAgo} minutes ago`;
 
   const hoursAgo = Math.floor(minutesAgo / 60);
-  if (hoursAgo < 1) return `${minutesAgo} minutes ago`;
+  if (hoursAgo < 24) return `${hoursAgo} hours ago`;
 
   const daysAgo = Math.floor(hoursAgo / 24);
-  if (daysAgo < 1) return `${hoursAgo} hours ago`;
+  if (daysAgo < 7) return `${daysAgo} days ago`;
 
   const weeksAgo = Math.floor(daysAgo / 7);
-  if (weeksAgo < 1) return `${daysAgo} days ago`;
+  if (weeksAgo < 4) return `${weeksAgo} weeks ago`;
 
   const monthsAgo = Math.floor(daysAgo / 30);
-  if (monthsAgo < 1) return `${weeksAgo} weeks ago`;
+  if (monthsAgo < 12) return `${monthsAgo} months ago`;
 
   const yearsAgo = Math.floor(daysAgo / 365);
-  if (yearsAgo < 1) return `${monthsAgo} months ago`;
-
   return `${yearsAgo} years ago`;
 }
 
@@ -47,7 +48,10 @@ function PostCard() {
   const [name, setName] = useState("");
   const [open, setOpen] = useState(false);
   const [showAllComments, setShowAllComments] = useState(false);
-  const [postTime, setPostTime] = useState(Timestamp.now());
+  const [postTime, setPostTime] = useState(() => {
+    const storedTime = localStorage.getItem('postTime');
+    return storedTime ? Timestamp.fromMillis(parseInt(storedTime, 10)) : Timestamp.now();
+  });
 
   useEffect(() => {
     const fetchLikesCount = async () => {
@@ -66,6 +70,10 @@ function PostCard() {
     fetchLikesCount();
     fetchComments();
   }, []);
+
+  useEffect(() => {
+    localStorage.setItem('postTime', postTime.toMillis().toString());
+  }, [postTime]);
 
   const handleLike = async () => {
     try {
@@ -110,6 +118,8 @@ function PostCard() {
     setShowAllComments(true);
   };
 
+  const specificDate = '2024-06-22T12:00:00Z'; // Specific date and time in ISO format
+
   return (
     <Box>
       <Box sx={{ p: 1, mb: 1, display: 'flex', alignItems: 'center' }}>
@@ -118,7 +128,7 @@ function PostCard() {
         </Box>
         <Box sx={{ ml: 1, display: 'flex', alignItems: 'center' }}>
           <Typography sx={{ fontSize: 18 }}>Jovino Monterde</Typography>
-          <Typography sx={{ fontSize: 12, ml: 1, color: 'green' }}>{timeAgo(postTime)}</Typography>
+          <Typography sx={{ fontSize: 12, ml: 1, color: 'green' }}>{timeAgo(postTime, specificDate)}</Typography>
         </Box>
       </Box>
       <CardMedia>
