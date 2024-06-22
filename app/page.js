@@ -21,9 +21,9 @@ export default function MainPost() {
   return (
    
       <Box sx={{ flexGrow: 1, p:0 }}>
-        <Grid container spacing={2}>
+        <Grid container spacing={2} >
           <Grid item xs={12} md={8} lg={8}>
-            <Box sx={{ flexGrow: 1, p:3, overflowY: 'scroll', height: '100vh' }}>
+            <Box sx={{ flexGrow: 1, pr: { xs: 2, md: 2 },pl: { xs: 2, md: 4 }, overflowY: 'scroll', height: '100vh' }}>
               <Grid container spacing={2}>
                 <Grid item xs={12}>
                   <Item><PostCard/></Item>
@@ -38,7 +38,7 @@ export default function MainPost() {
             </Box>
           </Grid>
           <Grid item xs={12} md={4} lg={4}>
-            <Box sx={{ flexGrow: 1, p:3 }}>
+            <Box sx={{ flexGrow: 1, pr: { xs: 2, md: 4 },pl: { xs: 2, md: 0 } }}>
               <Grid container spacing={2}>
                 <Grid item xs={12}>
                   <Item><About/></Item>

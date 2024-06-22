@@ -124,15 +124,17 @@ function PostCard2() {
           <Typography sx={{ fontSize: 12, ml:1, color: 'green' }}>{timeAgo(postTime)}</Typography>
         </Box>
       </Box>
-      <CardMedia>
-        <Image
-          src={image1}
-          alt="green iguana"
-          layout="responsive"
-          width={100} 
-          height={75} 
-        />
-      </CardMedia>
+      <Box sx={{ p: 3, backgroundColor: '#f4f4f4' }}>
+          <Typography sx={{ fontSize: 20, textAlign: 'left' }}>Hello mga tol, Please subscribe to my channel</Typography>
+        </Box>
+      <CardMedia
+        component="iframe"
+        src="https://www.youtube.com/embed/NDj9J4Uj3Gw?si=6uYeg5nN5gP6KUyw"
+        title="YouTube video player"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowFullScreen
+        sx={{ height: 315 }}
+      />
       <CardContent sx={{ pb: 4 }}>
         <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
           <Box display="flex" alignItems="center" onClick={handleLike} sx={{ cursor: 'pointer' }}>
