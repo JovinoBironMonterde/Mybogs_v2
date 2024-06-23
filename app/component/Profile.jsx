@@ -8,6 +8,7 @@ import { Typography, Stack } from '@mui/material';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
+import Avatar from '@mui/material/Avatar';
 import { db } from '../connection/firebaseConfig';
 import { collection, getDocs } from 'firebase/firestore';
 
@@ -57,9 +58,9 @@ function Profile() {
             <Typography textAlign='center' fontSize={12} sx={{ letterSpacing: 3 }}>Followers</Typography>
           </Box>
           <Stack direction="row" spacing={3} sx={{ justifyContent: 'center'}}>
-            <FacebookIcon color="action" />
-            <InstagramIcon color="action" />
-            <LinkedInIcon color="action" />
+              <FacebookIcon color="action" />
+              <InstagramIcon color="action" />
+              <LinkedInIcon color="action" />
           </Stack>
         </Box>
       </Box>

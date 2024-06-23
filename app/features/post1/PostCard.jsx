@@ -14,31 +14,7 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import image1 from '../../asset/img/img1.jpeg';
 import Profile from '../../asset/img/profile.jpg';
 
-function timeAgo(postTime, nowDate) {
-  const now = new Date(nowDate); // Specific date passed as argument
-  const postDate = postTime.toDate(); // Convert Firebase Timestamp to JavaScript Date object
-  const secondsAgo = Math.floor((now - postDate) / 1000);
 
-  if (secondsAgo < 60) return `${secondsAgo} seconds ago`;
-
-  const minutesAgo = Math.floor(secondsAgo / 60);
-  if (minutesAgo < 60) return `${minutesAgo} minutes ago`;
-
-  const hoursAgo = Math.floor(minutesAgo / 60);
-  if (hoursAgo < 24) return `${hoursAgo} hours ago`;
-
-  const daysAgo = Math.floor(hoursAgo / 24);
-  if (daysAgo < 7) return `${daysAgo} days ago`;
-
-  const weeksAgo = Math.floor(daysAgo / 7);
-  if (weeksAgo < 4) return `${weeksAgo} weeks ago`;
-
-  const monthsAgo = Math.floor(daysAgo / 30);
-  if (monthsAgo < 12) return `${monthsAgo} months ago`;
-
-  const yearsAgo = Math.floor(daysAgo / 365);
-  return `${yearsAgo} years ago`;
-}
 
 function PostCard() {
   const [liked, setLiked] = useState(false);
@@ -48,10 +24,7 @@ function PostCard() {
   const [name, setName] = useState("");
   const [open, setOpen] = useState(false);
   const [showAllComments, setShowAllComments] = useState(false);
-  const [postTime, setPostTime] = useState(() => {
-    const storedTime = localStorage.getItem('postTime');
-    return storedTime ? Timestamp.fromMillis(parseInt(storedTime, 10)) : Timestamp.now();
-  });
+
 
   useEffect(() => {
     const fetchLikesCount = async () => {
@@ -71,9 +44,6 @@ function PostCard() {
     fetchComments();
   }, []);
 
-  useEffect(() => {
-    localStorage.setItem('postTime', postTime.toMillis().toString());
-  }, [postTime]);
 
   const handleLike = async () => {
     try {
@@ -118,8 +88,6 @@ function PostCard() {
     setShowAllComments(true);
   };
 
-  const specificDate = '2024-06-22T12:00:00Z'; // Specific date and time in ISO format
-
   return (
     <Box>
       <Box sx={{ p: 1, mb: 1, display: 'flex', alignItems: 'center' }}>
@@ -128,7 +96,7 @@ function PostCard() {
         </Box>
         <Box sx={{ ml: 1, display: 'flex', alignItems: 'center' }}>
           <Typography sx={{ fontSize: 18 }}>Jovino Monterde</Typography>
-          <Typography sx={{ fontSize: 12, ml: 1, color: 'green' }}>{timeAgo(postTime, specificDate)}</Typography>
+          <Typography sx={{ fontSize: 12, ml: 1, color: 'green' }}>June 20, 2024 12:46AM</Typography>
         </Box>
       </Box>
       <CardMedia>
@@ -163,7 +131,7 @@ function PostCard() {
                 {comment.timestamp && new Date(comment.timestamp.seconds * 1000).toLocaleString()}
               </Typography>
             </Box>
-            <Typography sx={{ textAlign: 'left', ml: 5 }}>{comment.comment}</Typography>
+            <Typography sx={{ textAlign: 'left', ml: 3, pl:3 }}>{comment.comment}</Typography>
           </Box>
         ))}
         {comments.length > 2 && !showAllComments && (

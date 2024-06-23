@@ -7,7 +7,15 @@ import Grid from '@mui/material/Grid';
 import PostCard from './features/post1/PostCard';
 import PostCard2 from './features/Post2/PostCard2';
 import PostCard3 from './features/post3/PostCard3';
+import { CardMedia } from '@mui/material';
 import About from './component/About';
+import bg from './asset/img/bg.webp'
+import bg2 from './asset/img/bg2.webp'
+import cover from './asset/img/cover.webp'
+import npm from './asset/img/npm.webp'
+import img1 from './asset/img/img1.jpeg'
+import profile from './asset/img/profile.jpg'
+import Image from 'next/image';
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -44,7 +52,75 @@ export default function MainPost() {
                   <Item><About/></Item>
                 </Grid>
                 <Grid item xs={12}>
-                  <Item>xs=4</Item>
+                  <Item>
+                    <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 1 }}>
+                      <Grid item xs={6}>
+                        <Item sx={{minHeight: '120px'}}>
+                          <CardMedia>
+                            <Image
+                              src={bg}
+                              alt="green iguana"
+                              layout="responsive"
+                              width={100}
+                              height={100}
+                            />
+                          </CardMedia>
+                        </Item>
+                      </Grid>
+                      <Grid item xs={6}>
+                        <Item sx={{minHeight: '120px'}}>
+                          <CardMedia>
+                            <Image
+                              src={npm}
+                              alt="green iguana"
+                              layout="responsive"
+                              width={100}
+                              height={100}
+                            />
+                          </CardMedia>
+                        </Item>
+                      </Grid>
+                      <Grid item xs={6}>
+                        <Item sx={{minHeight: '120px'}}>
+                          <CardMedia>
+                            <Image
+                              src={bg2}
+                              alt="green iguana"
+                              layout="responsive"
+                              width={100}
+                              height={100}
+                            />
+                          </CardMedia>
+                        </Item>
+                      </Grid>
+                      <Grid item xs={6}>
+                        <Item sx={{minHeight: '120px'}}>
+                          <CardMedia>
+                            <Image
+                              src={img1}
+                              alt="green iguana"
+                              layout="responsive"
+                              width={100}
+                              height={100}
+                            />
+                          </CardMedia>
+                        </Item>
+                      </Grid>
+                      <Grid item xs={12}>
+                        <Item>
+                        <CardMedia>
+                          <Image
+                            src={cover}
+                            alt="green iguana"
+                            layout="responsive"
+                            width={100}
+                            height={100}
+                          />
+                        </CardMedia>
+                        </Item>
+                      </Grid>
+                    </Grid>
+                  </Item>
                 </Grid>
                 <Grid item xs={12}>
                   <Item>xs=8</Item>
